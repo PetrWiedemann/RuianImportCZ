@@ -176,23 +176,23 @@ public class RuianImport {
 		try (CSVParser csvParser = CSVParser.parse(csvFile.toFile(), Charset.forName("cp1250"), csvFormat)) {
 			for (CSVRecord record : csvParser) {
 				//
-				String street = getCsvColumn(record, "N·zev ulice");
+				String street = getCsvColumn(record, "N√°zev ulice");
 				
 				if (StringUtils.isBlank(street))
-					street = getCsvColumn(record, "N·zev Ë·sti obce");
+					street = getCsvColumn(record, "N√°zev ƒç√°sti obce");
 				
 				if (StringUtils.isBlank(street))
-					street = getCsvColumn(record, "N·zev MOMC");
+					street = getCsvColumn(record, "N√°zev MOMC");
 				
 				if (StringUtils.isBlank(street))
-					street = getCsvColumn(record, "N·zev obce");
+					street = getCsvColumn(record, "N√°zev obce");
 				
-				String houseNumber = getCsvColumn(record, "»Ìslo domovnÌ");
+				String houseNumber = getCsvColumn(record, "ƒå√≠slo domovn√≠");
 				
 				if (StringUtils.isNotBlank(street) && StringUtils.isNotBlank(houseNumber)) {
 					String key = street + "/" + houseNumber;
 					
-					String oriNumber = getCsvColumn(record, "»Ìslo orientaËnÌ") + getCsvColumn(record, "Znak ËÌsla orientaËnÌho");
+					String oriNumber = getCsvColumn(record, "ƒå√≠slo orientaƒçn√≠") + getCsvColumn(record, "Znak ƒç√≠sla orientaƒçn√≠ho");
 					key += oriNumber;
 					key = key.toUpperCase();
 					
@@ -218,14 +218,14 @@ public class RuianImport {
 	
 	protected void importRecord(CSVRecord record) throws SQLException {
 		//CSVRecord record
-		//System.out.println(record.get("PS»"));
+		//System.out.println(record.get("PSƒå"));
 		
-		int placeId = Integer.parseInt(getCsvColumn(record, "KÛd ADM"));
-		String zipCode = getCsvColumn(record, "PS»").replaceAll("\\s+", "");
-		String city = getCsvColumn(record, "N·zev obce");
-		String cityPart = getCsvColumn(record, "N·zev Ë·sti obce");
-		String street = getCsvColumn(record, "N·zev ulice");
-		String cityCode = getCsvColumn(record, "KÛd obce");
+		int placeId = Integer.parseInt(getCsvColumn(record, "K√≥d ADM"));
+		String zipCode = getCsvColumn(record, "PSƒå").replaceAll("\\s+", "");
+		String city = getCsvColumn(record, "N√°zev obce");
+		String cityPart = getCsvColumn(record, "N√°zev ƒç√°sti obce");
+		String street = getCsvColumn(record, "N√°zev ulice");
+		String cityCode = getCsvColumn(record, "K√≥d obce");
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		Set<Integer> objectIds = new LinkedHashSet<Integer>();
@@ -346,35 +346,35 @@ public class RuianImport {
 			streetMapKey = cityPart;
 		
 		if (StringUtils.isBlank(streetMapKey))
-			streetMapKey = getCsvColumn(record, "N·zev MOMC");
+			streetMapKey = getCsvColumn(record, "N√°zev MOMC");
 		
 		if (StringUtils.isBlank(streetMapKey))
 			streetMapKey = city;
 		
-		String houseNumber = getCsvColumn(record, "»Ìslo domovnÌ");
+		String houseNumber = getCsvColumn(record, "ƒå√≠slo domovn√≠");
 		if (StringUtils.isNotBlank(houseNumber))
 			streetMapKey += "/" + houseNumber;
 		
-		String oriNumber = getCsvColumn(record, "»Ìslo orientaËnÌ") + getCsvColumn(record, "Znak ËÌsla orientaËnÌho");
+		String oriNumber = getCsvColumn(record, "ƒå√≠slo orientaƒçn√≠") + getCsvColumn(record, "Znak ƒç√≠sla orientaƒçn√≠ho");
 		streetMapKey += oriNumber;
 		streetMapKey = streetMapKey.toUpperCase();
 		
 		AtomicInteger streetCnt = streetMap.get(streetMapKey);
 		boolean storePlaceType = streetCnt != null && streetCnt.get() > 1;
-		if (StringUtils.equalsIgnoreCase(getCsvColumn(record, "Typ SO"), "Ë.ev."))
+		if (StringUtils.equalsIgnoreCase(getCsvColumn(record, "Typ SO"), "ƒç.ev."))
 			storePlaceType = true;
 		
 		// Vyjimka pro Prahu
 		if (StringUtils.equals(cityCode, "554782")) {
 			/*
-			if (StringUtils.isNotBlank(getCsvColumn(record, "N·zev MOP")) && StringUtils.isNotBlank(cityPart)) {
-				//city = getCsvColumn(record, "N·zev MOP") + " - " + cityPart;
-				cityExpanded = getCsvColumn(record, "N·zev MOP") + " - " + cityPart;
+			if (StringUtils.isNotBlank(getCsvColumn(record, "N√°zev MOP")) && StringUtils.isNotBlank(cityPart)) {
+				//city = getCsvColumn(record, "N√°zev MOP") + " - " + cityPart;
+				cityExpanded = getCsvColumn(record, "N√°zev MOP") + " - " + cityPart;
 			}
 			*/
-			if (StringUtils.isNotBlank(getCsvColumn(record, "N·zev MOMC")) && StringUtils.isNotBlank(cityPart)) {
-				//city = getCsvColumn(record, "N·zev MOP") + " - " + cityPart;
-				cityExpanded = getCsvColumn(record, "N·zev MOMC");
+			if (StringUtils.isNotBlank(getCsvColumn(record, "N√°zev MOMC")) && StringUtils.isNotBlank(cityPart)) {
+				//city = getCsvColumn(record, "N√°zev MOP") + " - " + cityPart;
+				cityExpanded = getCsvColumn(record, "N√°zev MOMC");
 				
 				if (StringUtils.isNotBlank(cityExpanded) && isValidCityPart(cityExpanded, cityPart)) {
 					cityExpanded += " - " + cityPart;
@@ -389,7 +389,7 @@ public class RuianImport {
 			placeAddress = cityPart;
 		
 		if (StringUtils.isBlank(placeAddress))
-			placeAddress = getCsvColumn(record, "N·zev MOMC");
+			placeAddress = getCsvColumn(record, "N√°zev MOMC");
 		
 		if (StringUtils.isBlank(placeAddress)) {
 			if (StringUtils.isNotBlank(cityExpanded))
@@ -405,8 +405,8 @@ public class RuianImport {
 			
 			if (storePlaceType) {
 				String placeType = getCsvColumn(record, "Typ SO");
-				if (placeType.equalsIgnoreCase("Ë.ev."))
-					placeType = "ev.Ë.";
+				if (placeType.equalsIgnoreCase("ƒç.ev."))
+					placeType = "ev.ƒç.";
 				
 				if (StringUtils.isNotBlank(placeType))
 					placeAddress += " " + placeType;
@@ -484,11 +484,11 @@ public class RuianImport {
 			ftCity = StringUtils.join(fts, " ").trim();
 			
 			// GPS souradnice.
-			String X = getCsvColumn(record, "Sou¯adnice X");
-			String Y = getCsvColumn(record, "Sou¯adnice Y");
+			String X = getCsvColumn(record, "Sou≈ôadnice X");
+			String Y = getCsvColumn(record, "Sou≈ôadnice Y");
 			if (StringUtils.isNotBlank(X) && StringUtils.isNotBlank(Y)) {
 				/*
-				if (StringUtils.equals(getCsvColumn(record, "KÛd ADM"), "18324754")) {
+				if (StringUtils.equals(getCsvColumn(record, "K√≥d ADM"), "18324754")) {
 					GeoPoint point = GeoPoint.jtskToWGS84(X, Y);
 					System.out.println(point);
 				}

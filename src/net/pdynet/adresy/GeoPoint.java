@@ -42,7 +42,7 @@ public class GeoPoint
 	// -----  -----------------------------------------------------------------
 	
 	/**
-	 * Nastaví longitude (zemepisna delka)
+	 * NastavÃ­ longitude (zemepisna delka)
 	 * @return
 	 */
 	public double getLongitude() {
@@ -66,7 +66,7 @@ public class GeoPoint
 	}
 
 	/**
-	 * Nastaví longitude (zemepisna sirka)
+	 * NastavÃ­ longitude (zemepisna sirka)
 	 * @param latitude
 	 */
 	public void setLatitude(double latitude) {
@@ -74,7 +74,7 @@ public class GeoPoint
 	}
 
 	/**
-	 * Nastaví altitude (nadmorska vyska)
+	 * NastavÃ­ altitude (nadmorska vyska)
 	 * @return
 	 */
 	public double getAltitude() {
@@ -91,7 +91,7 @@ public class GeoPoint
 	
     /**
      * Metoda prepocita souradnice zadane ve formatu JSTK a prevede je na 
-     * souradnice ve formatu WGS84, pouzitelne v GoogleMapách  
+     * souradnice ve formatu WGS84, pouzitelne v GoogleMapÃ¡ch  
      * 
      * @param xS
      * @param yS
@@ -103,7 +103,7 @@ public class GeoPoint
     
     /**
      * Metoda prepocita souradnice zadane ve formatu JSTK a prevede je na 
-     * souradnice ve formatu WGS84, pouzitelne v GoogleMapách  
+     * souradnice ve formatu WGS84, pouzitelne v GoogleMapÃ¡ch  
      * 
      * @param xS
      * @param yS
@@ -113,7 +113,7 @@ public class GeoPoint
     public static GeoPoint jtskToWGS84(String xS, String yS, String hS) {
     	GeoPoint point = new GeoPoint(); 
     	try {
-			// Pøepoèet vstupích údajù 
+			// PÅ™epoÄet vstupÃ­ch ÃºdajÅ¯ 
     		
 			double X = NumberUtils.createDouble(xS); 
 			double Y = NumberUtils.createDouble(yS);
@@ -156,7 +156,7 @@ public class GeoPoint
 
 			double Bjtsk = Math.atan(pom / Math.sqrt(1 - pom * pom));
 			
-			// Pravoúhlé souøadnice ve S-JTSK
+			// PravoÃºhlÃ© souÅ™adnice ve S-JTSK
 			
 			a = 6377397.15508;
 			double f_1 = 299.152812853;
@@ -166,7 +166,7 @@ public class GeoPoint
 			double y = (ro + H) * Math.cos(Bjtsk) * Math.sin(Ljtsk);
 			double z = ((1 - e2) * ro + H) * Math.sin(Bjtsk);
 			
-			// Pravoúhlé souøadnice v WGS-84
+			// PravoÃºhlÃ© souÅ™adnice v WGS-84
 			
 			double dx = 570.69;
 			double dy = 85.69;
@@ -179,7 +179,7 @@ public class GeoPoint
 			double yn = dy + (1 + m) * (-wz * x + y + wx * z);
 			double zn = dz + (1 + m) * (wy * x - wx * y + z);
 
-			// Geodetické souøadnice v systému WGS-84
+			// GeodetickÃ© souÅ™adnice v systÃ©mu WGS-84
 			
 			a = 6378137.0;
 			f_1 = 298.257223563;
@@ -198,7 +198,7 @@ public class GeoPoint
 			point.longitude = L / Math.PI * 180;
 			point.altitude = Math.ceil((H) * 100) / 100;
 			
-			// Formát vıstupních hodnot
+			// FormÃ¡t vÃ½stupnÃ­ch hodnot
 			/*
 			B = B / Math.PI * 180;
 			String sirka = "N";
@@ -211,7 +211,7 @@ public class GeoPoint
 			double minsirky = Math.floor(B);
 			B = (B - minsirky) * 60;
 			double vtsirky = Math.round(B * 1000) / 1000;
-			sirka = sirka + stsirky + "°" + minsirky + "'" + vtsirky;
+			sirka = sirka + stsirky + "Â°" + minsirky + "'" + vtsirky;
 			L = L / Math.PI * 180;
 			String delka = "E";
 			if (L < 0) {
@@ -224,7 +224,7 @@ public class GeoPoint
 			double mindelky = Math.floor(L);
 			L = (L - mindelky) * 60;
 			double vtdelky = Math.round(L * 1000) / 1000;
-			delka = delka + stdelky + "°" + mindelky + "'" + vtdelky;
+			delka = delka + stdelky + "Â°" + mindelky + "'" + vtdelky;
 
 			String vyska = Math.round((H) * 100) / 100 + " m";
 			System.out.println("sirka:" + sirka + ", delka: " + delka + ", vyska: " + vyska);
